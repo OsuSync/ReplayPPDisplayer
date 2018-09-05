@@ -56,10 +56,8 @@ namespace ReplayPPDisplayer
                     {
                         using (var mmf = MemoryMappedFile.CreateOrOpen("replay-pp", 2048))
                         {
-                            using (var sw = new StreamWriter(mmf.CreateViewStream()))
-                            {
-                                sw.Write("");
-                            }
+                            var buf = new byte[] {0};
+                            mmf.CreateViewStream().Write(buf,0,1);
                         }
                     }
 
