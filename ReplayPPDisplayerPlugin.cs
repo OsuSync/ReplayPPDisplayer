@@ -19,7 +19,7 @@ using Sync.Plugins;
 
 namespace ReplayPPDisplayer
 {
-    [SyncPluginDependency("7216787b-507b-4eef-96fb-e993722acf2e", Version = "^1.4.3", Require = true)]
+    [SyncPluginDependency("8eb9e8e0-7bca-4a96-93f7-6408e76898a9", Version = "^1.5.0", Require = true)]
     public class ReplayPPDisplayerPlugin : Plugin
     {
         public const string VERSION = "0.0.1";
@@ -40,8 +40,6 @@ namespace ReplayPPDisplayer
         public ReplayPPDisplayerPlugin() : base(PLUGIN_NAME, PLGUIN_AUTHOR)
         {
         }
-
-
 
         public override void OnEnable()
         {
