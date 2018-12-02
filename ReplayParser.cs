@@ -30,7 +30,7 @@ namespace ReplayPPDisplayer
 
         public bool Perfect { get; private set; }
 
-        public ModsInfo Mods { get; set; }
+        public uint Mods { get; set; }
 
         public ReplayParser(string osr)
         {
@@ -66,10 +66,7 @@ namespace ReplayPPDisplayer
 
                         Perfect = br.ReadByte() == 1;
 
-                        Mods = new ModsInfo()
-                        {
-                            Mod = (ModsInfo.Mods) br.ReadInt32()
-                        };
+                        Mods = br.ReadUInt32();
                     }
                     break;
                 }

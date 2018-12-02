@@ -16,13 +16,14 @@ using RealTimePPDisplayer.Beatmap;
 using RealTimePPDisplayer.Calculator;
 using RealTimePPDisplayer.Displayer;
 using Sync.Plugins;
+using RTOsuPlayMode = OsuRTDataProvider.Listen.OsuPlayMode;
 
 namespace ReplayPPDisplayer
 {
     [SyncPluginDependency("8eb9e8e0-7bca-4a96-93f7-6408e76898a9", Version = "^1.5.0", Require = true)]
     public class ReplayPPDisplayerPlugin : Plugin
     {
-        public const string VERSION = "0.0.1";
+        public const string VERSION = "0.0.2";
         public const string PLUGIN_NAME = "ReplayPPDisplayer";
         public const string PLGUIN_AUTHOR = "KedamaOvO";
 
@@ -84,7 +85,7 @@ namespace ReplayPPDisplayer
                                     var replay = new ReplayParser(e.FullPath);
                                     var cal = GetCalculator(replay.Mode);
 
-                                    cal.Beatmap = new BeatmapReader(_beatmap,replay.Mode);
+                                    cal.Beatmap = new BeatmapReader(_beatmap,(int)replay.Mode);
                                     cal.Count300 = replay.Count300;
                                     cal.Count100 = replay.Count100;
                                     cal.Count50 = replay.Count50;
@@ -112,7 +113,9 @@ namespace ReplayPPDisplayer
                                     var mods = cal.Mods;
                                     string songs = $"{beatmap.Artist} - {beatmap.Title}[{beatmap.Difficulty}]";
                                     string acc = $"{cal.Accuracy:F2}%";
-                                    string modsStr = $"{(mods != ModsInfo.Mods.None ? "+" + mods.ShortName : "")}";
+                                    ModsInfo m = new ModsInfo();
+                                    m.Mod = (ModsInfo.Mods)mods;
+                                    string modsStr = $"{(m != ModsInfo.Mods.None ? "+" + m.ShortName : "")}";
                                     string pp = $"{cal.GetPerformance().RealTimePP:F2}pp";
                                     string msg = $"[Replay]{songs} {modsStr} | {acc} => {pp} ({replay.Mode})";
                                     Sync.Tools.IO.CurrentIO.WriteColor(msg, ConsoleColor.Blue);
@@ -123,25 +126,25 @@ namespace ReplayPPDisplayer
                 };
             }
         }
-
-        private PerformanceCalculatorBase GetCalculator(OsuPlayMode mode)
+        
+        private PerformanceCalculatorBase GetCalculator(RTOsuPlayMode mode)
         {
             PerformanceCalculatorBase calculator;
             switch (mode)
             {
-                case OsuPlayMode.Osu:
+                case RTOsuPlayMode.Osu:
                     _stdPpCalculator = _stdPpCalculator ?? new StdPerformanceCalculator();
                     calculator = _stdPpCalculator;
                     break;
-                case OsuPlayMode.Taiko:
+                case RTOsuPlayMode.Taiko:
                     _taikoPpCalculator = _taikoPpCalculator ?? new TaikoPerformanceCalculator();
                     calculator = _taikoPpCalculator;
                     break;
-                case OsuPlayMode.Mania:
+                case RTOsuPlayMode.Mania:
                     _maniaPpCalculator = _maniaPpCalculator ?? new ManiaPerformanceCalculator();
                     calculator = _maniaPpCalculator;
                     break;
-                case OsuPlayMode.CatchTheBeat:
+                case RTOsuPlayMode.CatchTheBeat:
                     _ctbPpCalculator = _ctbPpCalculator ?? new CatchTheBeatPerformanceCalculator();
                     calculator = _ctbPpCalculator;
                     break;
