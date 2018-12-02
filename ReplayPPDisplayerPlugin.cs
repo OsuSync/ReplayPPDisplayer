@@ -16,11 +16,10 @@ using RealTimePPDisplayer.Beatmap;
 using RealTimePPDisplayer.Calculator;
 using RealTimePPDisplayer.Displayer;
 using Sync.Plugins;
-using RTOsuPlayMode = OsuRTDataProvider.Listen.OsuPlayMode;
 
 namespace ReplayPPDisplayer
 {
-    [SyncPluginDependency("8eb9e8e0-7bca-4a96-93f7-6408e76898a9", Version = "^1.5.0", Require = true)]
+    [SyncPluginDependency("8eb9e8e0-7bca-4a96-93f7-6408e76898a9", Version = "^1.6.2", Require = true)]
     public class ReplayPPDisplayerPlugin : Plugin
     {
         public const string VERSION = "0.0.2";
@@ -127,24 +126,24 @@ namespace ReplayPPDisplayer
             }
         }
         
-        private PerformanceCalculatorBase GetCalculator(RTOsuPlayMode mode)
+        private PerformanceCalculatorBase GetCalculator(OsuPlayMode mode)
         {
             PerformanceCalculatorBase calculator;
             switch (mode)
             {
-                case RTOsuPlayMode.Osu:
+                case OsuPlayMode.Osu:
                     _stdPpCalculator = _stdPpCalculator ?? new StdPerformanceCalculator();
                     calculator = _stdPpCalculator;
                     break;
-                case RTOsuPlayMode.Taiko:
+                case OsuPlayMode.Taiko:
                     _taikoPpCalculator = _taikoPpCalculator ?? new TaikoPerformanceCalculator();
                     calculator = _taikoPpCalculator;
                     break;
-                case RTOsuPlayMode.Mania:
+                case OsuPlayMode.Mania:
                     _maniaPpCalculator = _maniaPpCalculator ?? new ManiaPerformanceCalculator();
                     calculator = _maniaPpCalculator;
                     break;
-                case RTOsuPlayMode.CatchTheBeat:
+                case OsuPlayMode.CatchTheBeat:
                     _ctbPpCalculator = _ctbPpCalculator ?? new CatchTheBeatPerformanceCalculator();
                     calculator = _ctbPpCalculator;
                     break;
